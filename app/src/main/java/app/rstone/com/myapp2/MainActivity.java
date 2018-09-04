@@ -15,40 +15,76 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Context ctx = MainActivity.this;
-        findViewById(R.id.plusbtn).setOnClickListener(new View.OnClickListener() {
+        final EditText num = findViewById(R.id.num);
+        class Calc{
+            int num, res;
+            String op;
+            public void exe(){
+                switch(op){
+                    case "+":res+=num;break;
+                    case "-":res-=num;break;
+                    case "*":res*=num;break;
+                    case "/":res/=num;break;
+                }
+            }
+            public void setNum(int num){this.num=num;}
+            public int getNum(){return num;}
+            public void setOp(String op){this.op=op;}
+            public String getOp(){return op;}
+            public void setRes(int res){this.res=res;}
+            public int getRes(){return res;}
+        }
+        final Calc calc = new Calc();
+        findViewById(R.id.plus_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText num1 = findViewById(R.id.num1);
-                EditText num2 = findViewById(R.id.num2);
-                TextView result  = findViewById(R.id.result);
-                result.setText("계산결과 : "+String.valueOf(Integer.parseInt(num1.getText().toString())+Integer.parseInt(num2.getText().toString())));
+                calc.setNum(Integer.parseInt(num.getText().toString()));
+                Toast.makeText(ctx,"처음입력한값"+calc.getNum(),Toast.LENGTH_LONG).show();
+                calc.setOp("+");
+                calc.exe();
+                num.setText("");
+
             }
         });
-        findViewById(R.id.minosbtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.minus_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText num1 = findViewById(R.id.num1);
-                EditText num2 = findViewById(R.id.num2);
-                TextView result  = findViewById(R.id.result);
-                result.setText("계산결과 : "+String.valueOf(Integer.parseInt(num1.getText().toString())-Integer.parseInt(num2.getText().toString())));
+                calc.setNum(Integer.parseInt(num.getText().toString()));
+                calc.setOp("-");
+                calc.exe();
+                num.setText("");
             }
         });
-        findViewById(R.id.multibtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.multi_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText num1 = findViewById(R.id.num1);
-                EditText num2 = findViewById(R.id.num2);
-                TextView result  = findViewById(R.id.result);
-                result.setText("계산결과 : "+String.valueOf(Integer.parseInt(num1.getText().toString())*Integer.parseInt(num2.getText().toString())));
+                calc.setNum(Integer.parseInt(num.getText().toString()));
+                calc.setOp("*");
+                calc.exe();
+                num.setText("");
             }
         });
-        findViewById(R.id.dividebtn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.divide_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText num1 = findViewById(R.id.num1);
-                EditText num2 = findViewById(R.id.num2);
-                TextView result = findViewById(R.id.result);
-                result.setText("계산결과 : "+String.valueOf(Integer.parseInt(num1.getText().toString())/Integer.parseInt(num2.getText().toString())));
+                calc.setNum(Integer.parseInt(num.getText().toString()));
+                calc.setOp("/");
+                calc.exe();
+                num.setText("");
+            }
+        });
+        findViewById(R.id.equal_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setNum(Integer.parseInt(num.getText().toString()));
+                calc.exe();
+                num.setText(calc.getRes()+"");
+            }
+        }); findViewById(R.id.ac_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setRes(0);
+                num.setText("");
             }
         });
     }
